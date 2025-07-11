@@ -7,7 +7,8 @@ export class Data {
   private apiUrl: string = 'https://jsonplaceholder.typicode.com/posts';
 
   constructor(private http: HttpClient) { }
-  getPosts() {
+
+  getPosts(): Observable<Post[]> {
     return this.http.get<Post[]>(this.apiUrl);
   }
 }
