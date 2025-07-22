@@ -34,7 +34,7 @@ body {
 }
 
 .social-links {
-    display: flex; 
+    display: flex;
     gap: 20px;
     margin-top: 20px;
 }
