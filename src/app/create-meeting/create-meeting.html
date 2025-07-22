@@ -1,1 +1,125 @@
-<p>create-meeting works!</p>
+<div class="angular-body">
+  <div class="header">
+    <h1><i class="fas fa-calendar-alt"></i> Meeting Scheduler</h1>
+    <p>Schedule your meetings with ease. Select a date, time, and participants for your next meeting.</p>
+  </div>
+  
+  <div class="content">
+    <div class="form-section">
+      <h2 class="form-title"><i class="fas fa-clipboard-list"></i> Meeting Details</h2>
+      
+      <div class="input-group">
+        <label for="meeting-topic">Meeting Topic</label>
+        <input type="text" id="meeting-topic" 
+          [(ngModel)]="meetingTopic"
+          placeholder="Enter meeting topic">
+      </div>
+      
+      <div class="input-group">
+        <label for="participants">Number of Participants</label>
+        <input type="number" id="participants" 
+          [(ngModel)]="participants"
+          min="1" max="100" 
+          placeholder="Enter number of participants">
+      </div>
+      
+      <div class="input-group">
+        <label for="meeting-description">Meeting Description (Optional)</label>
+        <textarea id="meeting-description" rows="3" 
+          [(ngModel)]="meetingDescription"
+          placeholder="Brief description of the meeting"></textarea>
+      </div>
+      
+      <h2 class="form-title" style="margin-top: 40px;"><i class="fas fa-calendar-day"></i> Schedule Date & Time</h2>
+      
+      <div class="date-time-grid">
+        <div class="calendar-section">
+          <div class="calendar-header">
+            <h3>{{ currentMonth + 1 }}/{{ currentYear }}</h3>
+            <div class="calendar-controls">
+              <button (click)="prevMonth()"><i class="fas fa-chevron-left"></i></button>
+              <button (click)="nextMonth()"><i class="fas fa-chevron-right"></i></button>
+            </div>
+          </div>
+          
+          <div class="calendar-grid">
+            <div class="calendar-day">Sun</div>
+            <div class="calendar-day">Mon</div>
+            <div class="calendar-day">Tue</div>
+            <div class="calendar-day">Wed</div>
+            <div class="calendar-day">Thu</div>
+            <div class="calendar-day">Fri</div>
+            <div class="calendar-day">Sat</div>
+            
+            <!-- Calendar days -->
+            <div *ngFor="let day of calendarDays" 
+                 class="calendar-date"
+                 [class.disabled]="!day.isCurrentMonth"
+                 [class.today]="day.isToday"
+                 [class.selected]="day.isSelected"
+                 (click)="selectDate(day)">
+              {{ day.day }}
+            </div>
+          </div>
+        </div>
+        
+        <div class="time-selector">
+          <label>Available Time Slots</label>
+          <div class="time-grid">
+            <div *ngFor="let time of timeSlots" 
+                 class="time-slot"
+                 [class.selected]="time === selectedTime"
+                 (click)="selectTime(time)">
+              {{ time }}
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="button-group" style="margin-top: 40px;">
+        <button class="btn btn-outline" (click)="resetForm()">
+          <i class="fas fa-sync-alt"></i> Reset Form
+        </button>
+        <button class="btn btn-primary" (click)="scheduleMeeting()">
+          <i class="fas fa-calendar-check"></i> Schedule Meeting
+        </button>
+      </div>
+    </div>
+    
+    <div class="confirmation-section">
+      <h2 class="confirmation-title"><i class="fas fa-check-circle"></i> Meeting Summary</h2>
+      
+      <div class="confirmation-details">
+        <div class="detail-item">
+          <div class="detail-label">Meeting Topic</div>
+          <div class="detail-value">{{ meetingTopic || 'Not specified' }}</div>
+        </div>
+        
+        <div class="detail-item">
+          <div class="detail-label">Participants</div>
+          <div class="detail-value">{{ participants ? participants + ' attendees' : 'Not specified' }}</div>
+        </div>
+        
+        <div class="detail-item">
+          <div class="detail-label">Date</div>
+          <div class="detail-value">{{ confirmationDate }}</div>
+        </div>
+        
+        <div class="detail-item">
+          <div class="detail-label">Time</div>
+          <div class="detail-value">{{ confirmationTime }}</div>
+        </div>
+        
+        <div class="detail-item">
+          <div class="detail-label">Duration</div>
+          <div class="detail-value">60 minutes</div>
+        </div>
+        
+        <div class="detail-item">
+          <div class="detail-label">Meeting Description</div>
+          <div class="detail-value">{{ meetingDescription || 'No description provided' }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
