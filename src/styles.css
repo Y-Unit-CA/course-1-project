@@ -9,3 +9,11 @@
     --active-color: #fda50d;
 }
 
+
+body {
+    background: linear-gradient(135deg, var(--light-color) 0%, #a8c6f0 100%);
+    min-height: 100vh;
+
+    justify-content: center;
+    align-items: center;
+}
