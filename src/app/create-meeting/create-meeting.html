@@ -1,226 +1,76 @@
-<body>
-    <!-- Angular Component Implementation -->
-    <div class="container card-container" ng-app="meetingApp" ng-controller="MeetingController as vm">
-        <div class="card main-card">
-            <div class="card-header">
-                <h1><i class="bi bi-calendar-check me-2"></i>Angular Meeting Scheduler</h1>
-                <p class="mb-0 mt-2">Schedule your meeting with our Angular-powered tool</p>
-            </div>
-            
-            <div class="card-body">
-                <form name="meetingForm" ng-submit="vm.scheduleMeeting()" novalidate>
-                    <!-- Meeting Topic -->
-                    <div class="mb-4">
-                        <label for="meetingTopic" class="form-label">
-                            <i class="bi bi-chat-dots"></i>Meeting Topic
-                        </label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-pencil"></i></span>
-                            <input type="text" class="form-control" id="meetingTopic" 
-                                   placeholder="Enter meeting topic or title" ng-model="vm.meeting.topic" required>
-                        </div>
-                    </div>
-                    
-                    <!-- Participants -->
-                    <div class="mb-4">
-                        <label class="form-label">
-                            <i class="bi bi-people"></i>Number of Participants
-                        </label>
-                        <div class="d-flex align-items-center counter">
-                            <div class="counter-btn" ng-click="vm.decrementParticipants()">
-                                <i class="bi bi-dash-lg"></i>
-                            </div>
-                            <div class="counter-value mx-3">{{vm.participants}}</div>
-                            <div class="counter-btn" ng-click="vm.incrementParticipants()">
-                                <i class="bi bi-plus-lg"></i>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Date Picker -->
-                    <div class="mb-4">
-                        <label for="datePicker" class="form-label">
-                            <i class="bi bi-calendar-date"></i>Meeting Date
-                        </label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-calendar3"></i></span>
-                            <input type="date" class="form-control" id="datePicker" 
-                                   ng-model="vm.meeting.date" min="{{vm.today}}">
-                        </div>
-                    </div>
-                    
-                    <!-- Time Picker -->
-                    <div class="mb-4">
-                        <label for="timePicker" class="form-label">
-                            <i class="bi bi-clock"></i>Meeting Time
-                        </label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-alarm"></i></span>
-                            <input type="time" class="form-control" id="timePicker" ng-model="vm.meeting.time">
-                        </div>
-                    </div>
-                    
-                    <!-- Meeting Type -->
-                    <div class="mb-4">
-                        <label for="meetingType" class="form-label">
-                            <i class="bi bi-globe"></i>Meeting Type
-                        </label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-gear"></i></span>
-                            <select class="form-select" id="meetingType" ng-model="vm.meeting.type">
-                                <option>In-person</option>
-                                <option selected>Video Conference</option>
-                                <option>Phone Call</option>
-                                <option>Hybrid</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <!-- Submit Button -->
-                    <div class="d-grid mt-4">
-                        <button type="submit" class="btn btn-primary btn-lg">
-                            <i class="bi bi-check-circle me-2"></i>Schedule Meeting
-                        </button>
-                    </div>
-                    
-                    <!-- Selection Display -->
-                    <div class="selection-card mt-4" ng-class="{'pulse': vm.showPulse}">
-                        <h4 class="selection-title"><i class="bi bi-card-checklist me-2"></i>Meeting Summary</h4>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <p class="mb-2">Meeting Topic:</p>
-                                <p class="highlight">{{vm.meeting.topic || 'Not specified'}}</p>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <p class="mb-2">Participants:</p>
-                                <p class="highlight">{{vm.participants}}</p>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <p class="mb-2">Date:</p>
-                                <p class="highlight">{{vm.meeting.date || 'Not selected'}}</p>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <p class="mb-2">Time:</p>
-                                <p class="highlight">{{vm.formatTime(vm.meeting.time) || 'Not selected'}}</p>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <p class="mb-2">Meeting Type:</p>
-                                <p class="highlight">{{vm.meeting.type || 'Not selected'}}</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Confirmation Alert -->
-                    <div class="alert alert-success alert-dismissible fade show mt-4" ng-show="vm.showSuccess">
-                        <div class="d-flex">
-                            <i class="bi bi-check-circle-fill me-3" style="font-size: 1.5rem;"></i>
-                            <div>
-                                <h5 class="alert-heading">Meeting Scheduled!</h5>
-                                <p class="mb-0">Your meeting "{{vm.meeting.topic}}" has been scheduled for {{vm.meeting.date}} at {{vm.formatTime(vm.meeting.time)}}</p>
-                            </div>
-                        </div>
-                        <button type="button" class="btn-close" ng-click="vm.showSuccess = false"></button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        
-        <!-- Features Section -->
-        <div class="row mt-4">
-            <div class="col-md-4 mb-4">
-                <div class="feature-box">
-                    <div class="feature-icon">
-                        <i class="bi bi-angular"></i>
-                    </div>
-                    <h4>Angular-Powered</h4>
-                    <p>Built with Angular for robust data binding</p>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="feature-box">
-                    <div class="feature-icon">
-                        <i class="bi bi-calendar-check"></i>
-                    </div>
-                    <h4>Easy Scheduling</h4>
-                    <p>Intuitive date and time selection</p>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="feature-box">
-                    <div class="feature-icon">
-                        <i class="bi bi-arrow-repeat"></i>
-                    </div>
-                    <h4>Real-time Updates</h4>
-                    <p>Changes reflected instantly</p>
-                </div>
-            </div>
-        </div>
+<!-- create-meeting.html -->
+<div class="scheduler-container">
+  <h2>Schedule a Meeting</h2>
+  <form [formGroup]="schedulerForm" (ngSubmit)="onSubmit()">
+    <!-- Meeting Topic -->
+    <div class="form-group">
+      <label for="topic">Meeting Topic</label>
+      <input 
+        type="text" 
+        id="topic" 
+        formControlName="topic"
+        placeholder="Enter meeting topic"
+        [ngClass]="{'invalid': schedulerForm.get('topic')?.invalid && schedulerForm.get('topic')?.touched}"
+      >
+      <div *ngIf="schedulerForm.get('topic')?.invalid && schedulerForm.get('topic')?.touched" class="error-message">
+        <span *ngIf="schedulerForm.get('topic')?.errors?.['required']">Topic is required</span>
+        <span *ngIf="schedulerForm.get('topic')?.errors?.['maxlength']">Max 100 characters</span>
+      </div>
     </div>
-    
-    <footer class="text-center mt-4">
-        <p>Copyright &copy; 2025 Henna Solutions All Rights Reserved.</p>
-    </footer>
 
-    <!-- AngularJS for demonstration -->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
-    <script>
-        // AngularJS implementation for demonstration
-        angular.module('meetingApp', [])
-        .controller('MeetingController', function() {
-            const vm = this;
-            
-            // Initialize meeting data
-            vm.meeting = {
-                topic: '',
-                date: new Date().toISOString().split('T')[0],
-                time: '14:00',
-                type: 'Video Conference'
-            };
-            
-            vm.participants = 5;
-            vm.today = new Date().toISOString().split('T')[0];
-            vm.showSuccess = false;
-            vm.showPulse = false;
-            
-            // Format time for display
-            vm.formatTime = function(timeString) {
-                if (!timeString) return '';
-                
-                const [hours, minutes] = timeString.split(':');
-                const hour = parseInt(hours, 10);
-                const suffix = hour >= 12 ? 'PM' : 'AM';
-                const displayHour = hour % 12 || 12;
-                return `${displayHour}:${minutes} ${suffix}`;
-            };
-            
-            // Participant counter
-            vm.incrementParticipants = function() {
-                if (vm.participants < 50) {
-                    vm.participants++;
-                }
-            };
-            
-            vm.decrementParticipants = function() {
-                if (vm.participants > 1) {
-                    vm.participants--;
-                }
-            };
-            
-            // Schedule meeting
-            vm.scheduleMeeting = function() {
-                if (!vm.meeting.topic) {
-                    alert('Please enter a meeting topic');
-                    return;
-                }
-                
-                vm.showSuccess = true;
-                vm.showPulse = true;
-                
-                // Reset pulse after animation
-                setTimeout(() => {
-                    vm.showPulse = false;
-                }, 500);
-            };
-        });
-    </script>
-</body>
+    <!-- Participants -->
+    <div class="form-group">
+      <label for="participants">Number of Participants</label>
+      <input 
+        type="number" 
+        id="participants" 
+        formControlName="participants"
+        placeholder="Enter number"
+        min="1"
+        max="50"
+        [ngClass]="{'invalid': schedulerForm.get('participants')?.invalid && schedulerForm.get('participants')?.touched}"
+      >
+      <div *ngIf="schedulerForm.get('participants')?.invalid && schedulerForm.get('participants')?.touched" class="error-message">
+        <span *ngIf="schedulerForm.get('participants')?.errors?.['required']">Required</span>
+        <span *ngIf="schedulerForm.get('participants')?.errors?.['min']">Min 1 participant</span>
+        <span *ngIf="schedulerForm.get('participants')?.errors?.['max']">Max 50 participants</span>
+      </div>
+    </div>
+
+    <!-- Date/Time Picker -->
+    <div class="datetime-picker">
+      <!-- Date Picker -->
+      <div class="form-group">
+        <label for="date">Date</label>
+        <input 
+          type="date"
+          id="date"
+          formControlName="date"
+          [min]="minDate | date:'yyyy-MM-dd'"
+          [ngClass]="{'invalid': schedulerForm.get('date')?.invalid && schedulerForm.get('date')?.touched}"
+        >
+      </div>
+
+      <!-- Time Selector -->
+      <div class="form-group">
+        <label for="time">Time</label>
+        <select 
+          id="time"
+          formControlName="time"
+          [ngClass]="{'invalid': schedulerForm.get('time')?.invalid && schedulerForm.get('time')?.touched}"
+        >
+          <option value="" disabled>Select time</option>
+          <option *ngFor="let slot of timeSlots" [value]="slot">{{slot}}</option>
+        </select>
+      </div>
+    </div>
+
+    <button 
+      type="submit" 
+      class="submit-btn"
+      [disabled]="schedulerForm.invalid"
+    >
+      Schedule Meeting
+    </button>
+  </form>
+</div>
