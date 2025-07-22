@@ -206,7 +206,63 @@
         .time-selector {
             margin-top: 15px;
         }
+ .time-selector select {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
 
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 30px;
+            letter-spacing: 0.5px;
+        }
+
+        .submit-btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .header, .content {
+                width: 100%;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .content {
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .time-selector {
+                flex-direction: column;
+            }
+        }
         .time-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
