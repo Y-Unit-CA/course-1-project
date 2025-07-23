@@ -1,40 +1,34 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common'; // Import CommonModule
-import { Router, RouterModule, RouterOutlet, NavigationEnd } from '@angular/router'; // Import RouterModule and NavigationEnd
+import { Router, RouterModule } from '@angular/router';
+import { Data } from './services/data';
+import { Post } from './models/post';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [CommonModule, RouterModule, RouterOutlet], // Add required imports
+  imports: [RouterModule],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
 })
+
 export class App {
-  activeTab = 'home';
+  protected title = 'simplilearn-course-1-project-client-management-app';
 
-  constructor(private router: Router) {
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        this.updateActiveTab(event.url);
-      }
+  posts: Post[] = [];
+
+  constructor(private router: Router, private dataService: Data) {
+    console.log('App component constructor executed!');
+  }
+
+  onGetData(): void {
+    this.dataService.getPosts().subscribe({
+      next: (data) => {
+        console.log(data);
+        this.posts = data;
+      },
+      error: (err) => {
+        console.error(`Error: ${ JSON.stringify(err) }`);
+      },
     });
-  }
-
-  setActiveTab(tabName: string) {
-    this.activeTab = tabName;
-  }
-
-  updateActiveTab(url: string) {
-    if (url === '/') {
-      this.activeTab = 'home';
-    } else if (url.includes('createClient')) {
-      this.activeTab = 'createClient';
-    } else if (url.includes('listClient')) {
-      this.activeTab = 'listClient';
-    } else if (url.includes('createMeeting')) {
-      this.activeTab = 'createMeeting';
-    } else if (url.includes('listMeeting')) {
-      this.activeTab = 'listMeeting';
-    }
+    console.log("onGetData() executed!");
   }
 }
