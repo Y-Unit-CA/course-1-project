@@ -1,22 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
-<<<<<<< HEAD
 
 :root {
-    --primary-color: #1B3769;
-    --secondary-color: #2a528a;
-    --accent-color: #4a7bc7;
-    --light-color: #e9f0fa;
-    --dark-color: #0d1c3a;
-    --active-color: #fda50d;
+  --primary-color: #1B3769;
+  --secondary-color: #2a528a;
+  --accent-color: #4a7bc7;
+  --light-color: #e9f0fa;
+  --dark-color: #0d1c3a;
+  --active-color: #fda50d;
+  --success-color: #4CAF50;
+  --error-color: #f44336;
 }
-
-
-body {
-    background: linear-gradient(135deg, var(--light-color) 0%, #a8c6f0 100%);
-    min-height: 100vh;
-
-    justify-content: center;
-    align-items: center;
-}
-=======
->>>>>>> parent of 8d714bb (corrected codes  with deepseek, all working)
