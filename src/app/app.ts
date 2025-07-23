@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common'; // Import CommonModule
 import { Router, RouterModule, RouterOutlet, NavigationEnd } from '@angular/router'; // Import RouterModule and NavigationEnd
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +10,15 @@ import { Router, RouterModule, RouterOutlet, NavigationEnd } from '@angular/rout
   templateUrl: './app.html',
   styleUrls: ['./app.css']
 })
+
+@NgModule({
+  imports: [
+    // ...
+    FormsModule,
+    ReactiveFormsModule
+  ]
+})
+
 export class App {
   activeTab = 'home';
 
