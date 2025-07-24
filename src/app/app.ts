@@ -7,9 +7,11 @@ import { Router, RouterModule, RouterOutlet, NavigationEnd } from '@angular/rout
   standalone: true,
   imports: [CommonModule, RouterModule, RouterOutlet], // Add required imports
   templateUrl: './app.html',
-  styleUrls: ['./app.css']
+  styleUrls: ['./app.css'],
 })
+
 export class App {
+  title = 'Client and Meeting Management App';
   activeTab = 'home';
 
   constructor(private router: Router) {

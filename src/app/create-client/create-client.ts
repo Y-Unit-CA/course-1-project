@@ -8,4 +8,8 @@ import { Component } from '@angular/core';
 })
 export class CreateClient {
 
+  onSubmit() {
+    console.log('Client Added Successfully');
+  }
 }
+
