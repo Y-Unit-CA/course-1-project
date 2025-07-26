@@ -65,6 +65,11 @@
           </a>
         </li>
         <li class="nav-item" role="presentation">
+          <a class="nav-link" [class.active]="activeTab === 'clientDetail'" routerLink="/clientDetail">
+            <i class="bi bi-person-lines-fill"></i> Client Detail
+          </a>
+        </li>
+        <li class="nav-item" role="presentation">
           <a class="nav-link" [class.active]="activeTab === 'createMeeting'" routerLink="/createMeeting">
             <i class="bi bi-calendar-plus"></i> Create Meeting
           </a>

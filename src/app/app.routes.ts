@@ -4,6 +4,7 @@ import { CreateClient } from './create-client/create-client';
 import { ListClient } from './list-client/list-client';
 import { CreateMeeting } from './create-meeting/create-meeting';
 import { ListMeeting } from './list-meeting/list-meeting';
+import { ClientDetail } from './client-detail/client-detail';
 
 
 export const routes: Routes = [
@@ -21,6 +22,11 @@ export const routes: Routes = [
         path: 'listClient', 
         component: ListClient,
         data: { tab: 'listClient' }
+    },
+    { 
+        path: 'clientDetail', 
+        component: ClientDetail,
+        data: { tab: 'clientDetail' }
     },
     { 
         path: 'createMeeting', 

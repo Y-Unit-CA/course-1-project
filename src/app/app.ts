@@ -33,6 +33,8 @@ export class App {
       this.activeTab = 'createClient';
     } else if (url.includes('listClient')) {
       this.activeTab = 'listClient';
+    } else if (url.includes('clientDetail')) {
+      this.activeTab = 'clientDetail';
     } else if (url.includes('createMeeting')) {
       this.activeTab = 'createMeeting';
     } else if (url.includes('listMeeting')) {

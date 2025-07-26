@@ -1,146 +1,142 @@
 <!-- list-client.html -->
-<div class="header text-center">
-  <div class="container">
-    <h1 class="mb-3"><i class="fas fa-users me-3"></i>Client Directory</h1>
-    <p class="lead">Manage and communicate with your clients effectively</p>
+<div class="angular-body">
+  <div class="header text-center">
+    <div class="container">
+      <h1 class="mb-3"><i class="fas fa-users me-3"></i>Client Directory</h1>
+      <p class="lead">Manage and communicate with your clients effectively</p>
+    </div>
   </div>
-</div>
 
-<div class="app-container">
-  <div class="search-container">
-    <div class="row">
-      <div class="col-md-8 mb-3 mb-md-0">
-        <div class="search-box">
-          <i class="fas fa-search"></i>
-          <input type="text" 
-                 class="form-control" 
-                 placeholder="Search clients by name, email, or company..."
-                 [(ngModel)]="searchTerm"
-                 (input)="onSearchChange()">
+  <div class="app-container">
+    <div class="search-container">
+      <div class="row">
+        <div class="col-md-8 mb-3 mb-md-0">
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" class="form-control" placeholder="Search clients by name, email, or company..."
+              [(ngModel)]="searchTerm" (input)="onSearchChange()">
+          </div>
+        </div>
+        <div class="col-md-4 d-flex align-items-center">
+          <button class="btn btn-primary w-100" routerLink="/createClient">
+            <i class="fas fa-plus me-2"></i>Add New Client
+          </button>
         </div>
       </div>
-      <div class="col-md-4 d-flex align-items-center">
-        <button class="btn btn-primary w-100">
-          <i class="fas fa-plus me-2"></i>Add New Client
+
+      <div class="filter-buttons mt-3">
+        <button *ngFor="let filter of filters" class="btn" [class.active]="activeFilter === filter.id"
+          (click)="setFilter(filter.id)">
+          {{ filter.name }}
         </button>
       </div>
     </div>
-    
-    <div class="filter-buttons mt-3">
-      <button *ngFor="let filter of filters"
-              class="btn" 
-              [class.active]="activeFilter === filter.id"
-              (click)="setFilter(filter.id)">
-        {{ filter.name }}
+
+    <div class="row mb-4">
+      <div class="col-md-3 mb-3 mb-md-0">
+        <div class="card stats-card">
+          <div class="card-body text-center">
+            <div class="stat-value">{{ stats.total }}</div>
+            <div class="stat-label">Total Clients</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 mb-3 mb-md-0">
+        <div class="card stats-card">
+          <div class="card-body text-center">
+            <div class="stat-value">{{ stats.vip }}</div>
+            <div class="stat-label">VIP Clients</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 mb-3 mb-md-0">
+        <div class="card stats-card">
+          <div class="card-body text-center">
+            <div class="stat-value">{{ stats.activeProjects }}</div>
+            <div class="stat-label">Active Projects</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card stats-card">
+          <div class="card-body text-center">
+            <div class="stat-value">${{ stats.revenue / 1000 }}K</div>
+            <div class="stat-label">Monthly Revenue</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="loading-spinner">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="!isLoading && errorMessage" class="col-12 text-center py-5">
+      <i class="fas fa-exclamation-triangle fa-3x text-danger mb-3"></i>
+      <h3>Error Loading Clients</h3>
+      <p>{{ errorMessage }}</p>
+      <button class="btn btn-primary mt-2" (click)="fetchClients()">
+        <i class="fas fa-redo me-2"></i>Retry
       </button>
     </div>
-  </div>
-  
-  <div class="row mb-4">
-    <div class="col-md-3 mb-3 mb-md-0">
-      <div class="card stats-card">
-        <div class="card-body text-center">
-          <div class="stat-value">{{ stats.total }}</div>
-          <div class="stat-label">Total Clients</div>
-        </div>
-      </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!isLoading && !errorMessage && filteredClients.length === 0" class="col-12 text-center py-5">
+      <i class="fas fa-user-slash fa-3x text-secondary mb-3"></i>
+      <h3>No Clients Found</h3>
+      <p>Try adjusting your search criteria</p>
+      <button class="btn btn-outline-primary mt-2" (click)="searchTerm = ''; activeFilter = 'all'; applyFilter()">
+        Clear Filters
+      </button>
     </div>
-    <div class="col-md-3 mb-3 mb-md-0">
-      <div class="card stats-card">
-        <div class="card-body text-center">
-          <div class="stat-value">{{ stats.vip }}</div>
-          <div class="stat-label">VIP Clients</div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3 mb-3 mb-md-0">
-      <div class="card stats-card">
-        <div class="card-body text-center">
-          <div class="stat-value">{{ stats.activeProjects }}</div>
-          <div class="stat-label">Active Projects</div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="card stats-card">
-        <div class="card-body text-center">
-          <div class="stat-value">${{ stats.revenue / 1000 }}K</div>
-          <div class="stat-label">Monthly Revenue</div>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  <!-- Loading State -->
-  <div *ngIf="isLoading" class="loading-spinner">
-    <div class="spinner-border" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
-  </div>
-  
-  <!-- Error State -->
-  <div *ngIf="!isLoading && errorMessage" class="col-12 text-center py-5">
-    <i class="fas fa-exclamation-triangle fa-3x text-danger mb-3"></i>
-    <h3>Error Loading Clients</h3>
-    <p>{{ errorMessage }}</p>
-    <button class="btn btn-primary mt-2" (click)="fetchClients()">
-      <i class="fas fa-redo me-2"></i>Retry
-    </button>
-  </div>
-  
-  <!-- Empty State -->
-  <div *ngIf="!isLoading && !errorMessage && filteredClients.length === 0" 
-       class="col-12 text-center py-5">
-    <i class="fas fa-user-slash fa-3x text-secondary mb-3"></i>
-    <h3>No Clients Found</h3>
-    <p>Try adjusting your search criteria</p>
-    <button class="btn btn-outline-primary mt-2" (click)="searchTerm = ''; activeFilter = 'all'; applyFilter()">
-      Clear Filters
-    </button>
-  </div>
-  
-  <!-- Client List -->
-  <div class="row">
-    <div *ngFor="let client of filteredClients" class="col-md-6 col-lg-4 mb-4">
-      <div class="card client-card">
-        <div class="card-header d-flex justify-content-between align-items-center">
-          <div>{{ client.company.name }}</div>
-          <div>
-            <span class="badge {{ getStatusClass(client) }}">
-              {{ getStatusText(client) }}
-            </span>
+
+    <!-- Client List -->
+    <div class="row">
+      <div *ngFor="let client of filteredClients" class="col-md-6 col-lg-4 mb-4">
+        <div class="card client-card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <div>{{ client.company.name }}</div>
+            <div>
+              <span class="badge {{ getStatusClass(client) }}">
+                {{ getStatusText(client) }}
+              </span>
+            </div>
           </div>
-        </div>
-        <div class="card-body">
-          <div class="name">{{ client.name }}</div>
-          <div class="company">{{ client.company.name }}</div>
-          
-          <div class="contact-info">
-            <i class="fas fa-envelope"></i>
-            <span>{{ client.email }}</span>
-          </div>
-          <div class="contact-info">
-            <i class="fas fa-phone"></i>
-            <span>{{ formatPhone(client.phone) }}</span>
-          </div>
-          <div class="contact-info">
-            <i class="fas fa-map-marker-alt"></i>
-            <span>{{ client.address.city }}</span>
-          </div>
-          
-          <div class="d-flex justify-content-end mt-3">
-            <button class="action-btn" [routerLink]="['/clients', client.id]">
-              <i class="fas fa-eye"></i>
-            </button>
-            <button class="action-btn">
-              <i class="fas fa-edit"></i>
-            </button>
-            <button class="action-btn">
-              <i class="fas fa-comment"></i>
-            </button>
+          <div class="card-body">
+            <div class="name">{{ client.name }}</div>
+            <div class="company">{{ client.company.name }}</div>
+
+            <div class="contact-info">
+              <i class="fas fa-envelope"></i>
+              <span>{{ client.email }}</span>
+            </div>
+            <div class="contact-info">
+              <i class="fas fa-phone"></i>
+              <span>{{ formatPhone(client.phone) }}</span>
+            </div>
+            <div class="contact-info">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>{{ client.address.city }}</span>
+            </div>
+
+            <div class="d-flex justify-content-end mt-3">
+              <button class="action-btn" routerLink='/clientDetail'>
+                <i class="fas fa-eye"></i>
+              </button>
+              <button class="action-btn">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="action-btn">
+                <i class="fas fa-comment"></i>
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+
