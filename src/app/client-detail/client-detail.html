@@ -1,71 +1,136 @@
 <!-- client-detail.html -->
-<div class="angular-body">
-<div *ngIf="isLoading" class="text-center py-5">
-  <div class="spinner-border text-primary" role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
-</div>
-
-<div *ngIf="!isLoading && errorMessage" class="alert alert-danger text-center">
-  {{ errorMessage }}
-  <button class="btn btn-sm btn-outline-primary ms-2" (click)="ngOnInit()">Retry</button>
-</div>
-
-<div *ngIf="!isLoading && client" class="app-container">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1><i class="fas fa-user me-3"></i>Client Details</h1>
-    <a routerLink="/listClient" class="btn btn-outline-primary">
-      <i class="fas fa-arrow-left me-2"></i>Back to List
-    </a>
-  </div>
-  
-  <div class="card shadow-lg">
-    <div class="card-header text-white d-flex justify-content-between align-items-center" style="background-color: var(--primary-color);">
-      <h3 class="mb-0">{{ client.name }}</h3>
-      <span class="badge bg-warning" *ngIf="client.id % 3 === 0">VIP</span>
+<div class="container mt-4">
+  <div *ngIf="isLoading" class="text-center py-5">
+    <div class="spinner-border" style="color: var(--accent-color);" role="status">
+      <span class="visually-hidden">Loading...</span>
     </div>
+    <p class="mt-3">Loading client details...</p>
+  </div>
+
+
+<div *ngIf="!isLoading && errorMessage" class="alert alert-danger">
+  <!-- ... -->
+  <p *ngIf="errorMessage.includes('Invalid')" class="mt-2">
+    <i class="fas fa-info-circle me-2"></i>
+    Valid client IDs are numbers between 1 and 10.
+  </p>
+</div>
+
+  <div *ngIf="!isLoading && errorMessage" class="alert alert-danger">
+    <div class="d-flex align-items-center">
+      <i class="fas fa-exclamation-circle me-3 fa-2x"></i>
+      <div>
+        <h4 class="alert-heading">Error Loading Client</h4>
+        <p>{{ errorMessage }}</p>
+      </div>
+    </div>
+    
+    <div class="d-flex justify-content-end mt-3">
+      <button class="btn btn-outline-secondary me-2" routerLink="/listClient">
+        <i class="fas fa-arrow-left me-1"></i> Back to List
+      </button>
+      <button class="btn btn-primary" (click)="retry()">
+        <i class="fas fa-redo me-1"></i> Try Again
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="!isLoading && client" class="card shadow-lg">
+    <div class="card-header d-flex justify-content-between align-items-center" 
+         style="background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: white;">
+      <h2 class="mb-0">{{ client.name }}</h2>
+      <span class="badge" [ngClass]="{
+        'bg-warning': client.id % 3 === 0,
+        'bg-success': client.id % 3 !== 0
+      }">
+        {{ client.id % 3 === 0 ? 'VIP' : 'Active' }}
+      </span>
+    </div>
+    
     <div class="card-body">
       <div class="row">
         <div class="col-md-6">
-          <h4 class="mb-3" style="color: var(--primary-color);">Contact Information</h4>
-          <div class="mb-3">
-            <strong>Email:</strong> {{ client.email }}
-          </div>
-          <div class="mb-3">
-            <strong>Phone:</strong> {{ client.phone }}
-          </div>
-          <div class="mb-3">
-            <strong>Website:</strong> 
-            <a href="http://{{ client.website }}" target="_blank">{{ client.website }}</a>
+          <div class="info-section mb-4">
+            <h3 class="section-title" style="color: var(--primary-color); border-bottom: 2px solid var(--accent-color); padding-bottom: 8px;">
+              <i class="fas fa-id-card me-2"></i>Contact Information
+            </h3>
+            
+            <div class="info-item">
+              <i class="fas fa-envelope fa-fw me-2" style="color: var(--accent-color);"></i>
+              <strong>Email:</strong> {{ client.email }}
+            </div>
+            
+            <div class="info-item">
+              <i class="fas fa-phone fa-fw me-2" style="color: var(--accent-color);"></i>
+              <strong>Phone:</strong> {{ client.phone }}
+            </div>
+            
+            <div class="info-item">
+              <i class="fas fa-globe fa-fw me-2" style="color: var(--accent-color);"></i>
+              <strong>Website:</strong> 
+              <a [href]="'http://' + client.website" target="_blank" style="color: var(--accent-color);">
+                {{ client.website }}
+              </a>
+            </div>
           </div>
         </div>
+        
         <div class="col-md-6">
-          <h4 class="mb-3" style="color: var(--primary-color);">Company & Address</h4>
-          <div class="mb-3">
-            <strong>Company:</strong> {{ client.company.name }}
+          <div class="info-section mb-4">
+            <h3 class="section-title" style="color: var(--primary-color); border-bottom: 2px solid var(--accent-color); padding-bottom: 8px;">
+              <i class="fas fa-building me-2"></i>Company Information
+            </h3>
+            
+            <div class="info-item">
+              <i class="fas fa-briefcase fa-fw me-2" style="color: var(--accent-color);"></i>
+              <strong>Company:</strong> {{ client.company.name }}
+            </div>
+            
+            <div class="info-item">
+              <i class="fas fa-quote-left fa-fw me-2" style="color: var(--accent-color);"></i>
+              <strong>Catchphrase:</strong> "{{ client.company.catchPhrase }}"
+            </div>
+            
+            <div class="info-item">
+              <i class="fas fa-bullseye fa-fw me-2" style="color: var(--accent-color);"></i>
+              <strong>Business:</strong> {{ client.company.bs }}
+            </div>
           </div>
-          <div class="mb-3">
-            <strong>Catchphrase:</strong> "{{ client.company.catchPhrase }}"
-          </div>
-          <div class="mb-3">
-            <strong>Address:</strong> 
-            {{ client.address.street }}, 
-            {{ client.address.suite }}, 
-            {{ client.address.city }}, 
-            {{ client.address.zipcode }}
+          
+          <div class="info-section">
+            <h3 class="section-title" style="color: var(--primary-color); border-bottom: 2px solid var(--accent-color); padding-bottom: 8px;">
+              <i class="fas fa-map-marker-alt me-2"></i>Address
+            </h3>
+            
+            <div class="info-item">
+              <i class="fas fa-road fa-fw me-2" style="color: var(--accent-color);"></i>
+              <strong>Street:</strong> {{ client.address.street }}
+            </div>
+            
+            <div class="info-item">
+              <i class="fas fa-city fa-fw me-2" style="color: var(--accent-color);"></i>
+              <strong>City:</strong> {{ client.address.city }}
+            </div>
+            
+            <div class="info-item">
+              <i class="fas fa-mail-bulk fa-fw me-2" style="color: var(--accent-color);"></i>
+              <strong>Zipcode:</strong> {{ client.address.zipcode }}
+            </div>
           </div>
         </div>
       </div>
       
-      <div class="mt-4 d-flex justify-content-end">
-        <button class="btn btn-primary me-2">
-          <i class="fas fa-edit me-2"></i>Edit Client
+      <div class="d-flex justify-content-end mt-4">
+        <button class="btn btn-outline-secondary me-2" routerLink="/listClient">
+          <i class="fas fa-arrow-left me-1"></i> Back to List
         </button>
-        <button class="btn btn-outline-danger">
-          <i class="fas fa-trash me-2"></i>Delete
+        <button class="btn btn-primary me-2">
+          <i class="fas fa-edit me-1"></i> Edit Client
+        </button>
+        <button class="btn btn-danger">
+          <i class="fas fa-trash me-1"></i> Delete
         </button>
       </div>
     </div>
   </div>
-</div>
 </div>
