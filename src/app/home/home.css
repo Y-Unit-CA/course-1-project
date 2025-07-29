@@ -1,0 +1,223 @@
+.angular-body {
+      width: 100%;
+      max-width: 1200px;
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 15px 40px rgba(13, 28, 58, 0.25);
+      margin: 0 auto;
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+      color: white;
+      padding: 2rem 0;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 2.4rem;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .header p {
+      font-size: 1.05rem;
+      opacity: 0.9;
+      line-height: 1.6;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .app-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .card {
+      border: none;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      height: 100%;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 1rem;
+      font-weight: 600;
+    }
+
+    .stats-card {
+      background-color: var(--light-color);
+      border-left: 4px solid var(--accent-color);
+    }
+
+    .stats-card .stat-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary-color);
+    }
+
+    .stats-card .stat-label {
+      color: var(--secondary-color);
+      font-weight: 500;
+    }
+
+    .search-container {
+      background-color: white;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      color: var(--primary-color);
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .action-card .card-header {
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    .btn-primary {
+      background-color: var(--primary-color);
+      border: none;
+      padding: 10px 20px;
+      font-weight: 600;
+      border-radius: 5px;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--secondary-color);
+    }
+
+    .btn-outline-primary {
+      color: var(--primary-color);
+      border-color: var(--primary-color);
+      padding: 10px 20px;
+      font-weight: 600;
+      border-radius: 5px;
+    }
+
+    .btn-outline-primary:hover {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+
+    .activity-timeline {
+      position: relative;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .activity-item {
+      display: flex;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    .activity-marker {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-top: 4px;
+      margin-right: 1rem;
+      flex-shrink: 0;
+    }
+
+    .activity-marker.client {
+      background-color: var(--primary-color);
+    }
+
+    .activity-marker.meeting {
+      background-color: var(--accent-color);
+    }
+
+    .activity-content {
+      flex-grow: 1;
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 0.375rem 0.75rem;
+      border-radius: 0.5rem;
+    }
+
+    .bg-primary {
+      background-color: var(--primary-color) !important;
+    }
+
+    .bg-warning {
+      background-color: var(--accent-color) !important;
+    }
+
+    .schedule-item {
+      margin-bottom: 1rem;
+    }
+
+    .schedule-time {
+      width: 60px;
+      text-align: center;
+      font-weight: 500;
+      color: var(--accent-color);
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 1.8rem;
+      }
+      
+      .angular-body {
+        border-radius: 0;
+        max-width: 100%;
+      }
+      
+      .app-container {
+        padding: 15px;
+      }
+      
+      .d-md-flex {
+        flex-direction: column !important;
+      }
+      
+      .btn {
+        margin-bottom: 0.5rem;
+        width: 100%;
+      }
+    }
+
+    /* Loading and empty states */
+    .loading-spinner {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 200px;
+    }
+
+    .spinner-border {
+      width: 3rem;
+      height: 3rem;
+      color: var(--accent-color);
+    }
+
+    .text-muted {
+      color: #6c757d !important;
+    }

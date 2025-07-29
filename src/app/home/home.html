@@ -1,1 +1,173 @@
-<p>home works!</p>
+<div class="angular-body">
+      <!-- Header Section -->
+      <div class="header text-center">
+        <div class="container">
+          <h1 class="mb-3">
+            <i class="fas fa-calendar-check me-3"></i>
+            Client & Meeting Scheduler
+          </h1>
+          <p class="lead">Streamline your client management and meeting scheduling</p>
+        </div>
+      </div>
+
+      <div class="app-container">
+
+        <!-- Quick Stats Cards -->
+        <div class="row mb-4">
+          <div class="col-md-3 mb-3 mb-md-0">
+            <div class="card stats-card">
+              <div class="card-body text-center">
+                <div class="stat-value">{{ totalClients }}</div>
+                <div class="stat-label">Total Clients</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-3 mb-3 mb-md-0">
+            <div class="card stats-card">
+              <div class="card-body text-center">
+                <div class="stat-value">{{ totalMeetings }}</div>
+                <div class="stat-label">Total Meetings</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-3 mb-3 mb-md-0">
+            <div class="card stats-card">
+              <div class="card-body text-center">
+                <div class="stat-value">{{ upcomingMeetings }}</div>
+                <div class="stat-label">Upcoming This Week</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-3">
+            <div class="card stats-card">
+              <div class="card-body text-center">
+                <div class="stat-value">{{ completedMeetings }}</div>
+                <div class="stat-label">Completed This Month</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions Section -->
+        <div class="search-container">
+          <h2 class="section-title">
+            <i class="fas fa-lightning-bolt me-2"></i>
+            Quick Actions
+          </h2>
+          
+          <div class="row">
+            <div class="col-lg-6 mb-4">
+              <div class="card action-card">
+                <div class="card-header d-flex align-items-center">
+                  <i class="fas fa-users me-2"></i>
+                  <span>Client Management</span>
+                </div>
+                <div class="card-body">
+                  <p class="text-muted mb-3">Add and manage your clients effectively</p>
+                  <div class="d-grid gap-2 d-md-flex">
+                    <button class="btn btn-primary" routerLink="/createClient">
+                      <i class="fas fa-plus me-2"></i>Add New Client
+                    </button>
+                    <button class="btn btn-outline-primary" routerLink="/listClient">
+                      <i class="fas fa-list me-2"></i>View All Clients
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-lg-6 mb-4">
+              <div class="card action-card">
+                <div class="card-header d-flex align-items-center">
+                  <i class="fas fa-calendar-plus me-2"></i>
+                  <span>Meeting Scheduler</span>
+                </div>
+                <div class="card-body">
+                  <p class="text-muted mb-3">Schedule and manage meetings efficiently</p>
+                  <div class="d-grid gap-2 d-md-flex">
+                    <button class="btn btn-primary" routerLink="/createMeeting">
+                      <i class="fas fa-plus me-2"></i>Schedule Meeting
+                    </button>
+                    <button class="btn btn-outline-primary" routerLink="/listMeeting">
+                      <i class="fas fa-calendar-week me-2"></i>View All Meetings
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity & Today's Schedule Section -->
+        <div class="row">
+          <div class="col-lg-8 mb-4">
+            <div class="card">
+              <div class="card-header d-flex align-items-center">
+                <i class="fas fa-activity me-2"></i>
+                <span>Recent Activity</span>
+              </div>
+              <div class="card-body">
+                <div class="activity-timeline" *ngIf="recentActivities.length > 0; else noActivity">
+                  <div class="activity-item" *ngFor="let activity of recentActivities">
+                    <div class="activity-marker" [ngClass]="activity.type"></div>
+                    <div class="activity-content">
+                      <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                          <p class="mb-1">{{ activity.description }}</p>
+                          <small class="text-muted">{{ activity.time }}</small>
+                        </div>
+                        <span class="badge" [ngClass]="getBadgeClass(activity.type)">
+                          {{ activity.category }}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <ng-template #noActivity>
+                  <div class="text-center py-4">
+                    <i class="fas fa-inbox text-muted" style="font-size: 3rem;"></i>
+                    <p class="text-muted mt-3">No recent activity to display</p>
+                  </div>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-4 mb-4">
+            <div class="card">
+              <div class="card-header d-flex align-items-center">
+                <i class="fas fa-calendar-day me-2"></i>
+                <span>Today's Schedule</span>
+              </div>
+              <div class="card-body">
+                <div class="schedule-list" *ngIf="todaysMeetings.length > 0; else noMeetings">
+                  <div class="schedule-item" *ngFor="let meeting of todaysMeetings; let last = last">
+                    <div class="d-flex align-items-center">
+                      <div class="schedule-time">
+                        <small class="fw-medium">{{ meeting.time }}</small>
+                      </div>
+                      <div class="ms-3 flex-grow-1">
+                        <h6 class="mb-1">{{ meeting.title }}</h6>
+                        <small class="text-muted">{{ meeting.client }}</small>
+                      </div>
+                    </div>
+                    <hr class="my-2" *ngIf="!last">
+                  </div>
+                </div>
+                
+                <ng-template #noMeetings>
+                  <div class="text-center py-3">
+                    <i class="fas fa-calendar-times text-muted" style="font-size: 2rem;"></i>
+                    <p class="text-muted mt-2 mb-0">No meetings scheduled for today</p>
+                  </div>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

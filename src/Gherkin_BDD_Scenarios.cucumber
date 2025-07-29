@@ -1,0 +1,367 @@
+# Client-Meeting Integration BDD Scenarios for Client & Meeting Scheduler App
+
+Feature: Client-Meeting Integration Workflows
+  As a business owner
+  I want seamless integration between client and meeting management
+  So that I can efficiently manage my business relationships and schedule
+
+  Background:
+    Given I am logged into the Client & Meeting Scheduler application
+    And there are existing clients in the system
+
+Feature: Schedule Meeting from Client Profile
+  As a business owner
+  I want to schedule meetings directly from a client's profile
+  So that I can quickly set up appointments with specific clients
+
+  Scenario: Schedule meeting from client detail page
+    Given I am viewing the client detail page for "John Smith"
+    When I click the "Schedule Meeting" button
+    Then I should be redirected to the create meeting page
+    And "John Smith" should be pre-selected as the client
+    And the client field should be disabled or read-only
+    And all other meeting fields should be available for input
+
+  Scenario: Quick schedule from client list
+    Given I am on the client list page
+    When I click the "Schedule Meeting" action button for "Jane Doe"
+    Then I should be redirected to the create meeting page
+    And "Jane Doe" should be pre-selected as the client
+    And the meeting form should be ready for input
+
+  Scenario: Schedule recurring meetings from client profile
+    Given I am viewing the client detail page for "ABC Corporation"
+    When I click "Schedule Meeting"
+    And I set up a weekly recurring meeting
+    And I save the meeting
+    Then multiple meeting instances should be created
+    And all instances should be associated with "ABC Corporation"
+
+Feature: Client History and Meeting Tracking
+  As a business owner
+  I want to see meeting history for each client
+  So that I can track our business relationship and meeting patterns
+
+  Scenario: View client meeting history
+    Given "John Smith" has had 5 meetings in the past 3 months
+    When I view the client detail page for "John Smith"
+    Then I should see a "Meeting History" section
+    And I should see all 5 past meetings listed chronologically
+    And each meeting should show date, time, title, and status
+
+  Scenario: View upcoming meetings for client
+    Given "John Smith" has 2 upcoming meetings scheduled
+    When I view the client detail page for "John Smith"
+    Then I should see an "Upcoming Meetings" section
+    And I should see both upcoming meetings
+    And I should be able to click on each meeting to view details
+
+  Scenario: Meeting statistics per client
+    Given "ABC Corporation" has meeting data over several months
+    When I view the client detail page for "ABC Corporation"
+    Then I should see meeting statistics including:
+      | Metric                 | Description                        |
+      | Total meetings         | Count of all meetings with client |
+      | Last meeting date      | Date of most recent meeting       |
+      | Next meeting date      | Date of next scheduled meeting    |
+      | Average meeting length | Average duration of meetings      |
+
+Feature: Client Status Based on Meeting Activity
+  As a business owner
+  I want client status to reflect meeting activity
+  So that I can identify clients who need attention
+
+  Scenario: Active client with recent meetings
+    Given "John Smith" has had a meeting within the last 30 days
+    When I view the client list
+    Then "John Smith" should be marked with an "Active" status
+    And should be highlighted with an active indicator
+
+  Scenario: Inactive client without recent meetings
+    Given "Jane Doe" has not had a meeting in the last 90 days
+    When I view the client list
+    Then "Jane Doe" should be marked with an "Inactive" status
+    And should be highlighted with an inactive indicator
+
+  Scenario: VIP client with frequent meetings
+    Given "ABC Corporation" has had 5+ meetings in the last month
+    When I view the client list
+    Then "ABC Corporation" should be marked with a "VIP" status
+    And should be highlighted with a VIP indicator
+
+Feature: Dashboard Integration
+  As a business owner
+  I want the dashboard to show integrated client and meeting information
+  So that I can get a complete overview of my business activities
+
+  Scenario: Recent activity showing both clients and meetings
+    Given there have been recent client additions and meeting schedules
+    When I view the dashboard
+    Then the "Recent Activity" section should show:
+      | Activity Type    | Description                           |
+      | Client Added     | "New client John Smith was added"    |
+      | Meeting Scheduled| "Meeting with Jane Doe scheduled"    |
+      | Meeting Completed| "Project review with ABC Corp completed" |
+      | Client Updated   | "Client information updated for XYZ"  |
+
+  Scenario: Today's schedule with client information
+    Given I have meetings scheduled for today
+    When I view the dashboard
+    Then the "Today's Schedule" widget should show:
+      | Time  | Meeting Title      | Client Name        |
+      | 09:00 | Project Review     | John Smith         |
+      | 14:30 | Quarterly Planning | ABC Corporation    |
+      | 16:00 | Initial Consultation| Jane Doe          |
+
+Feature: Cross-Navigation Between Clients and Meetings
+  As a business owner
+  I want to easily navigate between related clients and meetings
+  So that I can access information efficiently
+
+  Scenario: Navigate from meeting to client profile
+    Given I am viewing a meeting detail page for a meeting with "John Smith"
+    When I click on the client name "John Smith"
+    Then I should be redirected to "John Smith's" client detail page
+    And I should see all of John Smith's information
+
+  Scenario: Navigate from client profile to specific meeting
+    Given I am viewing the client detail page for "ABC Corporation"
+    And there is an upcoming meeting "Quarterly Review" listed
+    When I click on the "Quarterly Review" meeting
+    Then I should be redirected to that meeting's detail page
+    And I should see all meeting details
+
+  Scenario: Return navigation maintains context
+    Given I navigated to a client profile from a meeting page
+    When I click the "Back" button or browser back
+    Then I should return to the original meeting page
+    And the page state should be maintained
+
+Feature: Bulk Operations with Client-Meeting Integration
+  As a business owner
+  I want to perform bulk operations that affect both clients and meetings
+  So that I can manage large amounts of data efficiently
+
+  Scenario: Schedule meetings for multiple clients
+    Given I have selected multiple clients from the client list
+    When I click "Schedule Meeting for Selected"
+    Then I should be able to create a group meeting
+    And all selected clients should be associated with the meeting
+
+  Scenario: Cancel all meetings for a client
+    Given "XYZ Company" has 3 upcoming meetings scheduled
+    When I go to the client detail page for "XYZ Company"
+    And I click "Cancel All Meetings"
+    And I confirm the bulk cancellation
+    Then all 3 meetings should be cancelled
+    And I should see a confirmation "All meetings for XYZ Company have been cancelled"
+    And the client status should be updated accordingly
+
+  Scenario: Export client data with meeting statistics
+    Given I want to export client information including meeting data
+    When I select multiple clients and click "Export"
+    Then I should receive a file containing:
+      | Client Info | Meeting Stats |
+      | Name, Email, Phone | Total Meetings, Last Meeting, Next Meeting |
+      | Company, Address | Meeting Frequency, Total Duration |
+
+Feature: Search and Filter Integration
+  As a business owner
+  I want to search across both clients and meetings simultaneously
+  So that I can find related information quickly
+
+  Scenario: Global search across clients and meetings
+    Given there are clients and meetings in the system
+    When I enter "Project Review" in the global search
+    Then I should see results for:
+      | Type     | Results                                    |
+      | Meetings | Meetings with "Project Review" in title   |
+      | Clients  | Clients associated with these meetings     |
+
+  Scenario: Filter meetings by client characteristics
+    Given there are VIP and regular clients with meetings
+    When I filter meetings by "VIP Clients Only"
+    Then I should see only meetings associated with VIP clients
+    And the client status should be indicated in the meeting list
+
+  Scenario: Filter clients by meeting activity
+    Given there are clients with different meeting frequencies
+    When I filter clients by "Active This Month"
+    Then I should see only clients who have had meetings this month
+    And their recent meeting activity should be displayed
+
+Feature: Data Consistency and Validation
+  As a business owner
+  I want data consistency between clients and meetings
+  So that my information remains accurate and reliable
+
+  Scenario: Prevent deletion of client with upcoming meetings
+    Given "John Smith" has upcoming meetings scheduled
+    When I try to delete "John Smith" from the client list
+    Then I should see a warning message "Cannot delete client with upcoming meetings"
+    And I should be given options to:
+      | Option                    | Action                              |
+      | Cancel deletion          | Keep client and meetings intact     |
+      | Cancel meetings first    | Redirect to cancel meetings         |
+      | Reassign meetings        | Transfer meetings to another client |
+
+  Scenario: Update client information across all meetings
+    Given "ABC Corporation" has multiple meetings scheduled
+    When I update the company name to "ABC Corp International"
+    Then all associated meetings should reflect the new company name
+    And I should see a confirmation "Client updated in all related meetings"
+
+  Scenario: Validate client exists when scheduling meeting
+    Given I am creating a meeting via direct URL or API
+    When I specify a client ID that doesn't exist
+    Then I should see an error "Selected client does not exist"
+    And the meeting should not be created
+
+Feature: Reporting and Analytics Integration
+  As a business owner
+  I want comprehensive reports that combine client and meeting data
+  So that I can make informed business decisions
+
+  Scenario: Generate client engagement report
+    Given I want to analyze client engagement over the last quarter
+    When I generate a "Client Engagement Report"
+    Then I should see for each client:
+      | Metric                  | Description                           |
+      | Meeting frequency       | Number of meetings per month          |
+      | Meeting duration        | Average and total time spent         |
+      | Engagement trend        | Increasing/decreasing activity       |
+      | Last contact date       | Most recent meeting date             |
+
+  Scenario: Meeting productivity analysis by client type
+    Given I have categorized clients as VIP, Regular, and Prospect
+    When I run a "Meeting Productivity Analysis"
+    Then I should see meeting statistics broken down by client type:
+      | Client Type | Avg Meetings/Month | Avg Duration | Completion Rate |
+      | VIP         | 4.2               | 75 minutes   | 95%            |
+      | Regular     | 2.1               | 45 minutes   | 87%            |
+      | Prospect    | 1.3               | 30 minutes   | 78%            |
+
+  Scenario: Revenue correlation with meeting activity
+    Given clients have associated revenue data
+    When I generate a "Revenue vs Meeting Activity" report
+    Then I should see correlation between:
+      | Meeting Activity | Revenue Impact |
+      | High frequency   | Revenue trends |
+      | Meeting quality  | Deal closure   |
+      | Client type      | Revenue per client type |
+
+Feature: Mobile Integration Experience
+  As a business owner using mobile devices
+  I want seamless client-meeting integration on mobile
+  So that I can manage my business on the go
+
+  Scenario: Quick meeting scheduling from mobile client view
+    Given I am viewing a client profile on my mobile device
+    When I tap the "Quick Schedule" button
+    Then I should see a simplified meeting form optimized for mobile
+    And the client should be pre-selected
+    And I should be able to pick from common meeting templates
+
+  Scenario: Mobile notifications for client meetings
+    Given I have the mobile app installed
+    When a meeting with "Important Client" is starting in 15 minutes
+    Then I should receive a push notification
+    And the notification should include client name and meeting details
+    And tapping the notification should open the meeting details
+
+  Scenario: Offline capability for client-meeting data
+    Given I have recently viewed client and meeting data
+    When I lose internet connectivity on my mobile device
+    Then I should still be able to view:
+      | Data Type           | Availability        |
+      | Recent client list  | Read-only access    |
+      | Today's meetings   | Read-only access    |
+      | Client contact info| Read-only access    |
+    And any changes should sync when connectivity is restored
+
+Feature: Workflow Automation
+  As a business owner
+  I want automated workflows between client and meeting management
+  So that I can reduce manual work and improve efficiency
+
+  Scenario: Automatic follow-up meeting suggestion
+    Given a meeting with "John Smith" was completed yesterday
+    When I mark the meeting as completed
+    Then the system should suggest scheduling a follow-up meeting
+    And I should see recommended time slots based on previous meeting patterns
+
+  Scenario: Client status auto-update based on meeting activity
+    Given "ABC Corporation" status is currently "Regular"
+    When they have their 5th meeting this month
+    Then their status should automatically update to "VIP"
+    And I should receive a notification about the status change
+
+  Scenario: Automatic meeting reminders based on client importance
+    Given "VIP Client" has a meeting scheduled for tomorrow
+    When the reminder system runs
+    Then VIP clients should receive reminders 24 hours in advance
+    And regular clients should receive reminders 2 hours in advance
+    And the reminder content should be personalized based on client type
+
+Feature: Data Import/Export Integration
+  As a business owner
+  I want to import/export data that maintains client-meeting relationships
+  So that I can migrate data or integrate with other systems
+
+  Scenario: Import clients with existing meeting history
+    Given I have a CSV file with client data and meeting history
+    When I import the file
+    Then clients should be created with all their information
+    And historical meetings should be associated with the correct clients
+    And meeting dates should be preserved accurately
+
+  Scenario: Export integrated client-meeting data
+    Given I want to backup my complete business data
+    When I select "Export All Data"
+    Then I should receive files containing:
+      | File Type        | Contents                              |
+      | clients.csv      | All client information               |
+      | meetings.csv     | All meeting details with client IDs  |
+      | relationships.csv| Client-meeting association mapping   |
+
+  Scenario: Sync with external calendar maintaining client links
+    Given I want to sync meetings with Google Calendar
+    When I enable calendar sync
+    Then meetings should appear in my external calendar
+    And each meeting should include client information in the description
+    And changes in either system should sync bidirectionally
+
+Feature: Permission and Security Integration
+  As a business owner with team members
+  I want to control access to client and meeting information
+  So that I can maintain data security and privacy
+
+  Scenario: Role-based access to client-meeting data
+    Given I have team members with different roles
+    When a "Scheduler" role user logs in
+    Then they should be able to:
+      | Permission          | Access Level                    |
+      | View all clients    | Read-only access               |
+      | Schedule meetings   | Create/edit meetings           |
+      | View meeting details| Read-only meeting information  |
+    But they should not be able to:
+      | Restriction         | Limitation                     |
+      | Delete clients      | Cannot remove client data      |
+      | Edit client info    | Cannot modify client details   |
+      | Access financial data| Cannot see revenue information |
+
+  Scenario: Audit trail for client-meeting changes
+    Given audit logging is enabled
+    When I modify client information that affects meetings
+    Then the system should log:
+      | Event Type       | Details Logged                     |
+      | Client modified  | User, timestamp, fields changed    |
+      | Meetings affected| List of meetings impacted          |
+      | Automatic updates| System changes to meeting data     |
+
+  Scenario: Data privacy compliance for client information
+    Given a client requests data deletion under privacy regulations
+    When I process the deletion request
+    Then all client information should be removed
+    And associated meetings should be anonymized or deleted as configured
+    And I should receive a compliance report confirming the deletion
