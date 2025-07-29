@@ -1,0 +1,171 @@
+/* list-meeting.css */
+
+.angular-body {
+  width: 100%;
+  max-width: 1000px;
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 15px 40px rgba(13, 28, 58, 0.25);
+}
+.header {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white;
+  padding: 2rem 0;
+  margin-bottom: 2rem;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.card {
+  border: none;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.search-container {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+}
+
+.search-box {
+  position: relative;
+}
+
+.search-box input {
+  padding-left: 40px;
+  border: 2px solid var(--accent-color);
+  border-radius: 30px;
+  height: 50px;
+}
+
+.search-box i {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--accent-color);
+  font-size: 1.2rem;
+}
+
+.filter-buttons .btn {
+  background-color: var(--light-color);
+  color: var(--primary-color);
+  border: none;
+  border-radius: 20px;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.filter-buttons .btn.active, 
+.filter-buttons .btn:hover {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.stats-card {
+  background-color: var(--light-color);
+  border-left: 4px solid var(--accent-color);
+}
+
+.stats-card .stat-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.stats-card .stat-label {
+  color: var(--secondary-color);
+  font-weight: 500;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border: none;
+  padding: 10px 20px;
+  font-weight: 600;
+  border-radius: 5px;
+}
+
+.btn-primary:hover {
+  background-color: var(--secondary-color);
+}
+
+.action-btn {
+  background-color: var(--light-color);
+  color: var(--accent-color);
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 5px;
+  transition: all 0.3s;
+}
+
+.action-btn:hover {
+  background-color: var(--accent-color);
+  color: white;
+  transform: scale(1.1);
+}
+
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}
+
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+  color: var(--accent-color);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.table th {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(233, 240, 250, 0.5);
+}
+
+.bg-success {
+  background-color: #28a745 !important;
+}
+
+.bg-warning {
+  background-color: var(--active-color) !important;
+}
+
+.badge {
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+}
